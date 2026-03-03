@@ -1,7 +1,7 @@
 // 開発時: ローカルサーバー　公開時: GitHub Pages URLに変更
 export const DATA_URL =
-  'http://192.168.0.30:8765/data/trials.json';
-  // 'https://koji0505.github.io/TrialScheduleShiga/data/trials.json';
+  'https://koji0505.github.io/TrialScheduleShiga/data/trials.json';
+  // 'http://192.168.0.30:8765/data/trials.json';
 
 export const COLORS = {
   primary:    '#1565C0',
