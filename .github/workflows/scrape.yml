@@ -33,5 +33,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/data/trials.json
           git diff --staged --quiet || git commit -m "chore: update trial schedules $(date +'%Y-%m-%d')"
-          git pull --rebase origin main
+          git pull --rebase origin master
           git push
