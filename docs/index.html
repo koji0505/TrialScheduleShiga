@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>近畿 裁判員裁判 開廷スケジュール</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1565C0;
+      color: #fff;
+      padding: 14px 16px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+    header h1 { font-size: 1rem; font-weight: 700; letter-spacing: .02em; }
+    #updated  { font-size: .72rem; opacity: .8; margin-top: 2px; }
+
+    .controls {
+      background: #fff;
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .controls label { font-size: .85rem; color: #555; }
+    #datePicker {
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: .9rem;
+      color: #333;
+      cursor: pointer;
+    }
+    #todayBtn, #clearBtn {
+      background: #FF9800;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: .85rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    #clearBtn { background: #90A4AE; }
+
+    .court-filter {
+      background: #fff;
+      padding: 8px 12px;
+      border-bottom: 1px solid #ddd;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .court-btn {
+      display: inline-block;
+      margin-right: 6px;
+      padding: 5px 12px;
+      border-radius: 16px;
+      border: 1px solid #1565C0;
+      background: #fff;
+      color: #1565C0;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .court-btn.active {
+      background: #1565C0;
+      color: #fff;
+    }
+
+    #main {
+      padding: 12px 14px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #status {
+      text-align: center;
+      padding: 40px 0;
+      color: #888;
+      font-size: .95rem;
+    }
+
+    .trial-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: #1565C0;
+      color: #fff;
+      padding: 8px 12px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .card-body { padding: 10px 12px; }
+    .case-name {
+      font-size: .92rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .case-number {
+      font-size: .75rem;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .session-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 0;
+      border-top: 1px solid #f0f0f0;
+      align-items: center;
+      font-size: .85rem;
+    }
+    .session-date  { color: #1565C0; font-weight: 700; min-width: 90px; }
+    .session-time  { background: #e3f2fd; color: #1565C0; border-radius: 4px; padding: 1px 7px; }
+    .session-round { color: #555; }
+    .session-loc   { color: #777; font-size: .8rem; }
+    .session-note  { color: #e65100; font-size: .78rem; margin-left: auto; }
+
+    .no-result {
+      text-align: center;
+      padding: 50px 0;
+      color: #aaa;
+      font-size: .95rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .court-name-text { flex: 1; }
+    .access-links { display: flex; gap: 6px; flex-shrink: 0; }
+    .access-btn {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: .72rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .access-btn:hover { background: rgba(255,255,255,0.35); }
+    .notice {
+      background: #FFF8E1;
+      border-left: 4px solid #FF9800;
+      padding: 8px 14px;
+      font-size: .8rem;
+      color: #5D4037;
+      line-height: 1.5;
+    }
+
+    .court-address {
+      font-size: .75rem;
+      color: #666;
+      margin-bottom: 8px;
+      padding: 4px 0 6px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>⚖️ 近畿 裁判員裁判 開廷スケジュール</h1>
+  <div id="updated">データ読み込み中…</div>
+</header>
+
+<div class="notice">
+  ※ 掲載しているのは<strong>裁判員裁判</strong>の開廷期日情報のみです。一般の刑事・民事裁判の日程は含まれません。<br>
+  ※ 情報は各地方裁判所の公式サイトから取得しており、変更される場合があります。
+</div>
+
+<div class="controls">
+  <label for="datePicker">日付を選択：</label>
+  <input type="date" id="datePicker">
+  <button id="todayBtn">今日</button>
+  <button id="clearBtn">全て表示</button>
+</div>
+
+<div class="court-filter" id="courtFilter"></div>
+
+<div id="main">
+  <div id="status">データを読み込み中…</div>
+</div>
+
+<script>
+const DATA_URL = 'data/trials.json';
+
+const COURTS_INFO = {
+  "大津地方裁判所（滋賀）": {
+    address: "〒520-0044 滋賀県大津市京町3-1-2",
+    accessUrl: "https://www.courts.go.jp/otsu/about/syozai/otumain/index.html",
+  },
+  "大阪地方裁判所（本庁）": {
+    address: "〒530-8522 大阪市北区西天満2-1-10",
+    accessUrl: "https://www.courts.go.jp/osaka/about_tiho/syozai/osakamain/index.html",
+  },
+  "大阪地方裁判所（堺支部）": {
+    address: "〒590-8511 大阪府堺市堺区南瓦町2番28号",
+    accessUrl: "https://www.courts.go.jp/osaka/about_tiho/syozai/sakaisibu/index.html",
+  },
+  "京都地方裁判所": {
+    address: "〒604-8550 京都市中京区菊屋町",
+    accessUrl: "https://www.courts.go.jp/kyoto/about_tiho/syozai/kyotomain/index.html",
+  },
+  "神戸地方裁判所（本庁）": {
+    address: "〒650-8575 兵庫県神戸市中央区橘通2-2-1",
+    accessUrl: "https://www.courts.go.jp/kobe/about/syozai1/kobemain/index.html",
+  },
+  "神戸地方裁判所（姫路支部）": {
+    address: "〒670-0947 兵庫県姫路市北条1-250",
+    accessUrl: "https://www.courts.go.jp/kobe/about/syozai1/himezisibu/index.html",
+  },
+  "奈良地方裁判所": {
+    address: "〒630-8213 奈良県奈良市登大路町35",
+    accessUrl: "https://www.courts.go.jp/nara/about/syozai/naramain/index.html",
+  },
+  "和歌山地方裁判所": {
+    address: "〒640-8143 和歌山県和歌山市二番丁1番地",
+    accessUrl: "https://www.courts.go.jp/wakayama/about/syozai/wakayamatisai/index.html",
+  },
+};
+
+let allData   = null;
+let selDate   = '';
+let selCourt  = 'all';
+
+const mainEl        = document.getElementById('main');
+const updatedEl     = document.getElementById('updated');
+const datePickerEl  = document.getElementById('datePicker');
+const courtFilterEl = document.getElementById('courtFilter');
+
+// 今日の日付を YYYY-MM-DD で返す
+function today() {
+  return new Date().toLocaleDateString('sv-SE');
+}
+
+// YYYY-MM-DD → M月D日(曜)
+function fmtDate(d) {
+  const dt = new Date(d + 'T00:00:00');
+  const days = ['日','月','火','水','木','金','土'];
+  return `${dt.getMonth()+1}月${dt.getDate()}日(${days[dt.getDay()]})`;
+}
+
+function buildCourtFilter(courts) {
+  courtFilterEl.innerHTML = '';
+  const todayVal = today();
+  const names = ['all', ...Object.keys(courts).filter(name =>
+    courts[name].some(c => c.sessions.some(s => s.date >= todayVal))
+  )];
+  names.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'court-btn' + (name === selCourt ? ' active' : '');
+    btn.textContent = name === 'all' ? 'すべての裁判所' : name;
+    btn.onclick = () => {
+      selCourt = name;
+      document.querySelectorAll('.court-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    };
+    courtFilterEl.appendChild(btn);
+  });
+}
+
+function render() {
+  if (!allData) return;
+
+  const courts = allData.courts;
+  const cards  = [];
+
+  const todayVal = today();
+  Object.entries(courts).forEach(([courtName, cases]) => {
+    if (selCourt !== 'all' && selCourt !== courtName) return;
+
+    cases.forEach(c => {
+      const sessions = c.sessions.filter(s => {
+        if (s.date < todayVal) return false;
+        if (selDate) return s.date === selDate;
+        return true;
+      });
+      if (!sessions.length) return;
+
+      cards.push({ courtName, caseName: c.case_name, caseNumber: c.case_number, sessions });
+    });
+  });
+
+  if (!cards.length) {
+    mainEl.innerHTML = `<div class="no-result">${selDate ? fmtDate(selDate) + ' の' : ''}開廷情報はありません</div>`;
+    return;
+  }
+
+  mainEl.innerHTML = cards.map(({ courtName, caseName, caseNumber, sessions }) => {
+    const info = COURTS_INFO[courtName] || {};
+    const mapsUrl = info.address
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.address)}`
+      : '';
+    const accessLinks = `
+      <div class="access-links">
+        ${info.accessUrl ? `<a class="access-btn" href="${info.accessUrl}" target="_blank" rel="noopener">🏛 アクセス</a>` : ''}
+        ${mapsUrl        ? `<a class="access-btn" href="${mapsUrl}"         target="_blank" rel="noopener">🗺 地図</a>`   : ''}
+      </div>`;
+    return `
+    <div class="trial-card">
+      <div class="card-header">
+        <span class="court-name-text">${courtName}</span>
+        ${accessLinks}
+      </div>
+      <div class="card-body">
+        ${info.address ? `<div class="court-address">📌 ${info.address}</div>` : ''}
+        <div class="case-name">${caseName}</div>
+        <div class="case-number">${caseNumber}</div>
+        ${sessions.map(s => `
+          <div class="session-row">
+            <span class="session-date">${fmtDate(s.date)}</span>
+            <span class="session-time">${s.time}</span>
+            <span class="session-round">${s.session}</span>
+            <span class="session-loc">📍${s.location}</span>
+            ${s.note ? `<span class="session-note">※${s.note}</span>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function init() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    allData = await res.json();
+
+    const dt = new Date(allData.updated_at);
+    updatedEl.textContent = `最終更新: ${dt.toLocaleString('ja-JP')}`;
+
+    buildCourtFilter(allData.courts);
+
+    // デフォルトは今日
+    selDate = today();
+    datePickerEl.value = selDate;
+    render();
+  } catch(e) {
+    document.getElementById('status').textContent = 'データの読み込みに失敗しました。';
+  }
+}
+
+datePickerEl.addEventListener('change', e => {
+  selDate = e.target.value;
+  render();
+});
+document.getElementById('todayBtn').addEventListener('click', () => {
+  selDate = today();
+  datePickerEl.value = selDate;
+  render();
+});
+document.getElementById('clearBtn').addEventListener('click', () => {
+  selDate = '';
+  datePickerEl.value = '';
+  render();
+});
+
+init();
+</script>
+</body>
+</html>

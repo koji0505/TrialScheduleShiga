@@ -1,0 +1,19 @@
+# Claude Code local settings
+.claude/
+
+# Node
+app/node_modules/
+app/.expo/
+
+# Python
+scraper/__pycache__/
+scraper/*.pyc
+scraper/venv/
+scraper/.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
