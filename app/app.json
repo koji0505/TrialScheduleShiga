@@ -32,8 +32,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": ""
+        "projectId": "1dbc8b10-4063-4690-ac2c-7ca81f8ea844"
       }
-    }
+    },
+    "owner": "ksagawa"
   }
 }
