@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-22T20:19:27",
+  "updated_at": "2026-03-25T05:44:44",
   "courts": {
     "大津地方裁判所（滋賀）": [
       {
@@ -616,40 +616,6 @@
         "case_number": "",
         "sessions": [
           {
-            "date": "2026-01-28",
-            "time": "10:00",
-            "session": "第1回",
-            "location": "101号法廷",
-            "note": ""
-          },
-          {
-            "date": "2026-01-29",
-            "time": "10:00",
-            "session": "第2回",
-            "location": "101号法廷",
-            "note": ""
-          },
-          {
-            "date": "2026-02-02",
-            "time": "10:00",
-            "session": "第3回",
-            "location": "101号法廷",
-            "note": ""
-          },
-          {
-            "date": "2026-02-05",
-            "time": "11:00",
-            "session": "判決宣告",
-            "location": "101号法廷",
-            "note": ""
-          }
-        ]
-      },
-      {
-        "case_name": "殺人未遂被告事件",
-        "case_number": "",
-        "sessions": [
-          {
             "date": "2026-03-10",
             "time": "10:00",
             "session": "第1回",
@@ -679,6 +645,40 @@
           },
           {
             "date": "2026-03-24",
+            "time": "11:00",
+            "session": "判決宣告",
+            "location": "101号法廷",
+            "note": ""
+          }
+        ]
+      },
+      {
+        "case_name": "住居侵入、強盗致傷被告事件",
+        "case_number": "",
+        "sessions": [
+          {
+            "date": "2026-05-11",
+            "time": "10:00",
+            "session": "第1回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-05-12",
+            "time": "10:00",
+            "session": "第2回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-05-14",
+            "time": "10:00",
+            "session": "第3回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-05-18",
             "time": "11:00",
             "session": "判決宣告",
             "location": "101号法廷",
