@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T22:05:01",
+  "updated_at": "2026-09-27T22:43:50",
   "courts": {
     "大津地方裁判所（滋賀）": [
       {
@@ -902,6 +902,68 @@
           {
             "date": "2026-11-04",
             "time": "13:30",
+            "session": "判決",
+            "location": "101号法廷",
+            "note": ""
+          }
+        ]
+      },
+      {
+        "case_name": "",
+        "case_number": "",
+        "sessions": [
+          {
+            "date": "2026-11-16",
+            "time": "13:10",
+            "session": "第1回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-18",
+            "time": "10:00",
+            "session": "第2回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-20",
+            "time": "10:00",
+            "session": "第3回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-24",
+            "time": "10:00",
+            "session": "第4回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-25",
+            "time": "10:00",
+            "session": "第5回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-27",
+            "time": "10:00",
+            "session": "第6回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-11-30",
+            "time": "10:00",
+            "session": "第7回",
+            "location": "101号法廷",
+            "note": ""
+          },
+          {
+            "date": "2026-12-16",
+            "time": "15:00",
             "session": "判決",
             "location": "101号法廷",
             "note": ""
